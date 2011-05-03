@@ -1,0 +1,13 @@
+This jQuery plugin is an extended version of Phil Palmieris work; http://philpalmieri.com/2009/09/jquery-session-auto-timeout-with-prompt/
+
+My extension is listening to the jQuery event ajaxSend so that the timeout is reset when other ajax requests are sent (assuming they will reset the session timeout on the server)
+
+/Jonas Myrenås, jonas@myrenas.se
+
+
+This work is licensed under the Creative Commons Attribution-Share Alike 3.0
+United States License. To view a copy of this license,
+visit http://creativecommons.org/licenses/by-sa/3.0/us/ or send a letter
+to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+
+
