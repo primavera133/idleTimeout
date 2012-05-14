@@ -13,6 +13,12 @@ My extension is listening to the jQuery event ajaxSend so that the timeout is re
 /Jonas Myrenås, jonas@myrenas.se
 */
 
+/*
+This plugin is modified to open or not to open the dialog based on the value of a property. I have added the showDialog property to the defaults object, set the value of this field to true by default. If the value of the property showDialog is false, noconfirm is set to 0 and the dialog will not appear.
+
+/S. Ravi Kiran, Twitter handle: @sravi_kiran
+*/
+
 (function($) {
     $.fn.idleTimeout = function(options) {
         var defaults = {
@@ -23,8 +29,8 @@ My extension is listening to the jQuery event ajaxSend so that the timeout is re
             click_reset: true,
             alive_url: '/js_sandbox/',
             logout_url: '/js_sandbox/',
-            useAjaxSend: false
-
+            useAjaxSend: false,
+			showDialog: true
         };
 
         //##############################
@@ -33,6 +39,9 @@ My extension is listening to the jQuery event ajaxSend so that the timeout is re
         var opts = $.extend(defaults, options);
         var liveTimeout, confTimeout, sessionTimeout;
         var modal = "<div id='modal_pop'><p>You are about to be signed out due to inactivity.</p></div>";
+		if (!opts.showDialog) {
+            opts.noconfirm = 0;
+        }
         //##############################
         //## Private Functions
         //##############################
@@ -50,15 +59,16 @@ My extension is listening to the jQuery event ajaxSend so that the timeout is re
         var logout = function() {
 
             confTimeout = setTimeout(redirect, opts.noconfirm);
-            $(modal).dialog({
-                buttons: {"Stay Logged In":  function() {
-                    $(this).dialog('close');
-                    stay_logged_in();
-                }},
-                modal: true,
-                title: 'Auto Logout'
-            });
-
+            if (opts.showDialog) {
+				$(modal).dialog({
+					buttons: {"Stay Logged In":  function() {
+						$(this).dialog('close');
+						stay_logged_in();
+					}},
+					modal: true,
+					title: 'Auto Logout'
+				});
+			}
         };
 
         var redirect = function() {
